@@ -14,14 +14,14 @@ const addBookHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  const forFinished = (finish) => {
-    if (pageCount !== readPage ) {
-      finish = true;
-    } else {
-      finish = false;
-    }
-    return forFinished;
-  };
+  // const forFinished = (finish) => {
+  //   if (pageCount !== readPage ) {
+  //     finish = true;
+  //   } else {
+  //     finish = false;
+  //   }
+  //   return forFinished;
+  // };
 
   if (name === undefined) {
     const response = h.response({
@@ -41,10 +41,14 @@ const addBookHandler = (request, h) => {
     return response;
   }
 
+  if (pageCount !== readPage) {
+    finished = true;
+  }
+
   const id = nanoid(16);
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
-  const finished = forFinished(finished);
+  // const finished = forFinished(finished);
 
   const newBook = {
     id,
@@ -64,8 +68,6 @@ const addBookHandler = (request, h) => {
   books.push(newBook);
 
   const isArraySuccess = books.filter((book) => book.id === id).length > 0;
-  // const isNameFill = books.filter((name) => books.name === undefined);
-  // const isReadPageBig = books.filter((readPage) => books.readPage >= pageCount);
 
   if (isArraySuccess) {
     const response = h.response({
@@ -86,6 +88,14 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
+const getAllBooksHandler = () => ({
+  status: 'success',
+  data: {
+    books,
+  },
+});
+
 module.exports = {
   addBookHandler,
+  getAllBooksHandler,
 };

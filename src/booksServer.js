@@ -5,6 +5,11 @@ const serverInit = async () => {
   const setUpServer = Hapi.server({
     port: 5000,
     host: 'localhost',
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
   });
 
   setUpServer.route(routes);
